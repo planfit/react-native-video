@@ -16,20 +16,20 @@ class AudioSessionManager {
 
     private init() {
         // Subscribe to audio interruption notifications
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleAudioSessionInterruption),
-            name: AVAudioSession.interruptionNotification,
-            object: nil
-        )
+        // NotificationCenter.default.addObserver(
+        //     self,
+        //     selector: #selector(handleAudioSessionInterruption),
+        //     name: AVAudioSession.interruptionNotification,
+        //     object: nil
+        // )
 
-        // Subscribe to route change notifications
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handleAudioRouteChange),
-            name: AVAudioSession.routeChangeNotification,
-            object: nil
-        )
+        // // Subscribe to route change notifications
+        // NotificationCenter.default.addObserver(
+        //     self,
+        //     selector: #selector(handleAudioRouteChange),
+        //     name: AVAudioSession.routeChangeNotification,
+        //     object: nil
+        // )
     }
 
     deinit {
@@ -39,176 +39,183 @@ class AudioSessionManager {
     // MARK: - Public API
 
     func registerView(view: RCTVideo) {
-        if videoViews.contains(view) {
-            return
-        }
+        return
+        // if videoViews.contains(view) {
+        //     return
+        // }
 
-        videoViews.add(view)
-        updateAudioSessionConfiguration()
+        // videoViews.add(view)
+        // updateAudioSessionConfiguration()
     }
 
     func unregisterView(view: RCTVideo) {
-        if !videoViews.contains(view) {
-            return
-        }
+        return
+        // if !videoViews.contains(view) {
+        //     return
+        // }
 
-        videoViews.remove(view)
-        updateAudioSessionConfiguration()
+        // videoViews.remove(view)
+        // updateAudioSessionConfiguration()
 
-        if videoViews.allObjects.isEmpty && !remoteControlEventsActive {
-            deactivateAudioSession()
-        }
+        // if videoViews.allObjects.isEmpty && !remoteControlEventsActive {
+        //     deactivateAudioSession()
+        // }
     }
 
     func updateAudioSessionConfiguration() {
+        return
         // Activate audio session if needed
-        let isAnyPlayerPlaying = videoViews.allObjects.contains { view in
-            return !view.isMuted() && view._player != nil && view._player?.rate != 0
-        }
+        // let isAnyPlayerPlaying = videoViews.allObjects.contains { view in
+        //     return !view.isMuted() && view._player != nil && view._player?.rate != 0
+        // }
 
-        if isAnyPlayerPlaying || remoteControlEventsActive {
-            activateAudioSession()
-        }
+        // if isAnyPlayerPlaying || remoteControlEventsActive {
+        //     activateAudioSession()
+        // }
 
-        configureAudioSession()
+        // configureAudioSession()
     }
 
     // Handle remote control events from NowPlayingInfoCenterManager
     func setRemoteControlEventsActive(_ active: Bool) {
-        if isAudioSessionManagementDisabled {
-            // AUDIO SESSION MANAGEMENT DISABLED BY USER
-            return
-        }
+        return
+        // if isAudioSessionManagementDisabled {
+        //     // AUDIO SESSION MANAGEMENT DISABLED BY USER
+        //     return
+        // }
 
-        remoteControlEventsActive = active
+        // remoteControlEventsActive = active
 
-        if active {
-            // Force playback category and activate session when remote control events are active
-            configureForRemoteControlEvents()
-        } else {
-            // If no active players, we can deactivate the session
-            if !videoViews.allObjects.contains(where: { view in
-                return view._player != nil && view._player?.rate != 0
-            }) {
-                deactivateAudioSession()
-            } else {
-                // Otherwise reconfigure based on current players
-                updateAudioSessionConfiguration()
-            }
-        }
+        // if active {
+        //     // Force playback category and activate session when remote control events are active
+        //     configureForRemoteControlEvents()
+        // } else {
+        //     // If no active players, we can deactivate the session
+        //     if !videoViews.allObjects.contains(where: { view in
+        //         return view._player != nil && view._player?.rate != 0
+        //     }) {
+        //         deactivateAudioSession()
+        //     } else {
+        //         // Otherwise reconfigure based on current players
+        //         updateAudioSessionConfiguration()
+        //     }
+        // }
     }
 
     // Notification that a player's properties have changed
     func playerPropertiesChanged(view: RCTVideo) {
+        return
         // Only update if this is a registered view
-        if videoViews.contains(view) {
-            updateAudioSessionConfiguration()
-        }
+        // if videoViews.contains(view) {
+        //     updateAudioSessionConfiguration()
+        // }
     }
 
     // MARK: - Audio Session Configuration
 
     private func configureForRemoteControlEvents() {
-        let audioSession = AVAudioSession.sharedInstance()
+        return
+        // let audioSession = AVAudioSession.sharedInstance()
 
-        do {
-            // Remote control events always need playback category
-            try audioSession.setCategory(.playback, mode: .moviePlayback)
-            activateAudioSession()
-        } catch {
-            print(
-                "Failed to configure audio session for remote control events: \(error.localizedDescription)"
-            )
-        }
+        // do {
+        //     // Remote control events always need playback category
+        //     try audioSession.setCategory(.playback, mode: .moviePlayback)
+        //     activateAudioSession()
+        // } catch {
+        //     print(
+        //         "Failed to configure audio session for remote control events: \(error.localizedDescription)"
+        //     )
+        // }
     }
 
     private func configureAudioSession() {
-        let audioSession = AVAudioSession.sharedInstance()
-        var options: AVAudioSession.CategoryOptions = []
+        return
+        // let audioSession = AVAudioSession.sharedInstance()
+        // var options: AVAudioSession.CategoryOptions = []
 
-        // Check player properties
-        let anyPlayerShowNotificationControls = videoViews.allObjects.contains { view in
-            return view._showNotificationControls
-        }
+        // // Check player properties
+        // let anyPlayerShowNotificationControls = videoViews.allObjects.contains { view in
+        //     return view._showNotificationControls
+        // }
 
-        let anyPlayerNeedsPiP = videoViews.allObjects.contains { view in
-            return view.isPictureInPictureActive()
-        }
+        // let anyPlayerNeedsPiP = videoViews.allObjects.contains { view in
+        //     return view.isPictureInPictureActive()
+        // }
 
-        let anyPlayerNeedsBackgroundPlayback = videoViews.allObjects.contains { view in
-            return view._playInBackground
-        }
+        // let anyPlayerNeedsBackgroundPlayback = videoViews.allObjects.contains { view in
+        //     return view._playInBackground
+        // }
 
-        let canAllowMixing = !anyPlayerShowNotificationControls && !anyPlayerNeedsBackgroundPlayback
+        // let canAllowMixing = !anyPlayerShowNotificationControls && !anyPlayerNeedsBackgroundPlayback
 
-        if isAudioSessionManagementDisabled {
-            // AUDIO SESSION MANAGEMENT DISABLED BY USER
-            return
-        }
+        // if isAudioSessionManagementDisabled {
+        //     // AUDIO SESSION MANAGEMENT DISABLED BY USER
+        //     return
+        // }
 
-        if canAllowMixing {
-            let shouldEnableMixing = videoViews.allObjects.contains { view in
-                return view._mixWithOthers == "mix"
-            }
+        // if canAllowMixing {
+        //     let shouldEnableMixing = videoViews.allObjects.contains { view in
+        //         return view._mixWithOthers == "mix"
+        //     }
 
-            let shouldEnableDucking = videoViews.allObjects.contains { view in
-                return view._mixWithOthers == "duck"
-            }
+        //     let shouldEnableDucking = videoViews.allObjects.contains { view in
+        //         return view._mixWithOthers == "duck"
+        //     }
 
-            if shouldEnableMixing && shouldEnableDucking {
-                print(
-                    "Warning: Conflicting mixWithOthers settings found (mix vs duck) - defaulting to mix"
-                )
-                options.insert(.mixWithOthers)
-            } else {
-                if shouldEnableMixing {
-                    options.insert(.mixWithOthers)
-                }
+        //     if shouldEnableMixing && shouldEnableDucking {
+        //         print(
+        //             "Warning: Conflicting mixWithOthers settings found (mix vs duck) - defaulting to mix"
+        //         )
+        //         options.insert(.mixWithOthers)
+        //     } else {
+        //         if shouldEnableMixing {
+        //             options.insert(.mixWithOthers)
+        //         }
 
-                if shouldEnableDucking {
-                    options.insert(.duckOthers)
-                }
-            }
-        }
+        //         if shouldEnableDucking {
+        //             options.insert(.duckOthers)
+        //         }
+        //     }
+        // }
 
-        let isAnyPlayerUsingEarpiece = videoViews.allObjects.contains { view in
-            return view._audioOutput == "earpiece"
-        }
+        // let isAnyPlayerUsingEarpiece = videoViews.allObjects.contains { view in
+        //     return view._audioOutput == "earpiece"
+        // }
 
-        let isSilentSwitchIgnore = videoViews.allObjects.contains { view in
-            return view._ignoreSilentSwitch == "ignore"
-        }
+        // let isSilentSwitchIgnore = videoViews.allObjects.contains { view in
+        //     return view._ignoreSilentSwitch == "ignore"
+        // }
 
-        let isSilentSwitchObey = videoViews.allObjects.contains { view in
-            return view._ignoreSilentSwitch == "obey"
-        }
+        // let isSilentSwitchObey = videoViews.allObjects.contains { view in
+        //     return view._ignoreSilentSwitch == "obey"
+        // }
 
-        // Determine audio category based on player requirements
-        let category = determineAudioCategory(
-            silentSwitchObey: isSilentSwitchObey,
-            silentSwitchIgnore: isSilentSwitchIgnore,
-            earpiece: isAnyPlayerUsingEarpiece,
-            pip: anyPlayerNeedsPiP,
-            backgroundPlayback: anyPlayerNeedsBackgroundPlayback,
-            notificationControls: anyPlayerShowNotificationControls
-        )
+        // // Determine audio category based on player requirements
+        // let category = determineAudioCategory(
+        //     silentSwitchObey: isSilentSwitchObey,
+        //     silentSwitchIgnore: isSilentSwitchIgnore,
+        //     earpiece: isAnyPlayerUsingEarpiece,
+        //     pip: anyPlayerNeedsPiP,
+        //     backgroundPlayback: anyPlayerNeedsBackgroundPlayback,
+        //     notificationControls: anyPlayerShowNotificationControls
+        // )
 
-        do {
-            try audioSession.setCategory(
-                category, mode: .moviePlayback, options: canAllowMixing ? options : []
-            )
+        // do {
+        //     try audioSession.setCategory(
+        //         category, mode: .moviePlayback, options: canAllowMixing ? options : []
+        //     )
 
-            // Configure audio port
-            if isAnyPlayerUsingEarpiece, audioSession.category == .playAndRecord {
-                #if os(iOS) || os(visionOS)
-                    try audioSession.overrideOutputAudioPort(.speaker)
-                #endif
-            } else {
-                try audioSession.overrideOutputAudioPort(.none)
-            }
-        } catch {
-            print("Failed to configure audio session: \(error.localizedDescription)")
-        }
+        //     // Configure audio port
+        //     if isAnyPlayerUsingEarpiece, audioSession.category == .playAndRecord {
+        //         #if os(iOS) || os(visionOS)
+        //             try audioSession.overrideOutputAudioPort(.speaker)
+        //         #endif
+        //     } else {
+        //         try audioSession.overrideOutputAudioPort(.none)
+        //     }
+        // } catch {
+        //     print("Failed to configure audio session: \(error.localizedDescription)")
+        // }
     }
 
     private func determineAudioCategory(
@@ -264,78 +271,82 @@ class AudioSessionManager {
     }
 
     private func activateAudioSession() {
-        if isAudioSessionActive {
-            return
-        }
+        return
+        // if isAudioSessionActive {
+        //     return
+        // }
 
-        do {
-            try AVAudioSession.sharedInstance().setActive(true)
-            isAudioSessionActive = true
-        } catch {
-            print("Failed to activate audio session: \(error.localizedDescription)")
-        }
+        // do {
+        //     try AVAudioSession.sharedInstance().setActive(true)
+        //     isAudioSessionActive = true
+        // } catch {
+        //     print("Failed to activate audio session: \(error.localizedDescription)")
+        // }
     }
 
     private func deactivateAudioSession() {
-        if !isAudioSessionActive {
-            return
-        }
+        return
+        // if !isAudioSessionActive {
+        //     return
+        // }
 
-        do {
-            try AVAudioSession.sharedInstance().setActive(
-                false, options: .notifyOthersOnDeactivation
-            )
-            isAudioSessionActive = false
-        } catch {
-            print("Failed to deactivate audio session: \(error.localizedDescription)")
-        }
+        // do {
+        //     try AVAudioSession.sharedInstance().setActive(
+        //         false, options: .notifyOthersOnDeactivation
+        //     )
+        //     isAudioSessionActive = false
+        // } catch {
+        //     print("Failed to deactivate audio session: \(error.localizedDescription)")
+        // }
     }
 
     // MARK: - Notification Handlers
 
     @objc
     private func handleAudioSessionInterruption(notification: Notification) {
-        guard let userInfo = notification.userInfo,
-              let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
-              let type = AVAudioSession.InterruptionType(rawValue: typeValue)
-        else {
-            return
-        }
+        return
+        // guard let userInfo = notification.userInfo,
+        //       let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+        //       let type = AVAudioSession.InterruptionType(rawValue: typeValue)
+        // else {
+        //     return
+        // }
 
-        switch type {
-        case .began:
-            // Audio session interrupted, nothing to do as players will pause automatically
-            break
+        // switch type {
+        // case .began:
+        //     // Audio session interrupted, nothing to do as players will pause automatically
+        //     break
 
-        case .ended:
-            // Interruption ended, check if we should resume audio session
-            if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
-                let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
-                if options.contains(.shouldResume) {
-                    updateAudioSessionConfiguration()
-                }
-            }
+        // case .ended:
+        //     // Interruption ended, check if we should resume audio session
+        //     if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
+        //         let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
+        //         if options.contains(.shouldResume) {
+        //             updateAudioSessionConfiguration()
+        //         }
+        //     }
 
-        @unknown default:
-            break
-        }
+        // @unknown default:
+        //     break
+        // }
     }
 
     @objc
     private func handleAudioRouteChange(notification: Notification) {
-        guard let userInfo = notification.userInfo,
-              let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
-              let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue)
-        else {
-            return
-        }
+        return
+        // guard let userInfo = notification.userInfo,
+        //       let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
+        //       let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue)
+        // else {
+        //     return
+        // }
 
-        switch reason {
-        case .categoryChange, .override, .wakeFromSleep, .newDeviceAvailable, .oldDeviceUnavailable:
-            // Reconfigure audio session when route changes
-            updateAudioSessionConfiguration()
-        default:
-            break
-        }
+        // switch reason {
+        // case .categoryChange, .override, .wakeFromSleep, .newDeviceAvailable, .oldDeviceUnavailable:
+        //     // Reconfigure audio session when route changes
+        //     updateAudioSessionConfiguration()
+        // default:
+        //     break
+        // }
     }
 }

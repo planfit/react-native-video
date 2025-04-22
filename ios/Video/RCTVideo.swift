@@ -205,7 +205,7 @@ class RCTVideo: UIView, RCTVideoPlayerViewControllerDelegate, RCTPlayerObserverH
 
         _eventDispatcher = eventDispatcher
 
-        AudioSessionManager.shared.registerView(view: self)
+        // AudioSessionManager.shared.registerView(view: self)
 
         #if os(iOS)
             if _enterPictureInPictureOnLeave {
@@ -255,12 +255,12 @@ class RCTVideo: UIView, RCTVideoPlayerViewControllerDelegate, RCTPlayerObserverH
             object: nil
         )
 
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(audioRouteChanged(notification:)),
-            name: AVAudioSession.routeChangeNotification,
-            object: nil
-        )
+        // NotificationCenter.default.addObserver(
+        //     self,
+        //     selector: #selector(audioRouteChanged(notification:)),
+        //     name: AVAudioSession.routeChangeNotification,
+        //     object: nil
+        // )
 
         #if os(iOS)
             NotificationCenter.default.addObserver(
@@ -289,7 +289,7 @@ class RCTVideo: UIView, RCTVideoPlayerViewControllerDelegate, RCTPlayerObserverH
             _imaAdsManager.releaseAds()
             _imaAdsManager = nil
         #endif
-        AudioSessionManager.shared.unregisterView(view: self)
+        // AudioSessionManager.shared.unregisterView(view: self)
 
         NotificationCenter.default.removeObserver(self)
         self.removePlayerLayer()
@@ -304,7 +304,7 @@ class RCTVideo: UIView, RCTVideoPlayerViewControllerDelegate, RCTPlayerObserverH
         #endif
 
         ReactNativeVideoManager.shared.unregisterView(newInstance: self)
-        AudioSessionManager.shared.unregisterView(view: self)
+        // AudioSessionManager.shared.unregisterView(view: self)
     }
 
     // MARK: - App lifecycle handlers
@@ -796,7 +796,7 @@ class RCTVideo: UIView, RCTVideoPlayerViewControllerDelegate, RCTPlayerObserverH
             if _enterPictureInPictureOnLeave != enterPictureInPictureOnLeave {
                 _enterPictureInPictureOnLeave = enterPictureInPictureOnLeave
 
-                AudioSessionManager.shared.playerPropertiesChanged(view: self)
+                // AudioSessionManager.shared.playerPropertiesChanged(view: self)
             }
         #endif
     }
@@ -816,14 +816,14 @@ class RCTVideo: UIView, RCTVideoPlayerViewControllerDelegate, RCTPlayerObserverH
     func setIgnoreSilentSwitch(_ ignoreSilentSwitch: String?) {
         _ignoreSilentSwitch = ignoreSilentSwitch ?? "inherit"
 
-        AudioSessionManager.shared.playerPropertiesChanged(view: self)
+        // AudioSessionManager.shared.playerPropertiesChanged(view: self)
     }
 
     @objc
     func setMixWithOthers(_ mixWithOthers: String?) {
         _mixWithOthers = mixWithOthers ?? "inherit"
 
-        AudioSessionManager.shared.playerPropertiesChanged(view: self)
+        // AudioSessionManager.shared.playerPropertiesChanged(view: self)
     }
 
     @objc
@@ -854,7 +854,7 @@ class RCTVideo: UIView, RCTVideoPlayerViewControllerDelegate, RCTPlayerObserverH
         }
 
         _paused = paused
-        AudioSessionManager.shared.playerPropertiesChanged(view: self)
+        // AudioSessionManager.shared.playerPropertiesChanged(view: self)
     }
 
     @objc
@@ -921,7 +921,7 @@ class RCTVideo: UIView, RCTVideoPlayerViewControllerDelegate, RCTPlayerObserverH
         _audioOutput = audioOutput
 
         // Notify AudioSessionManager about the change instead of directly configuring
-        AudioSessionManager.shared.playerPropertiesChanged(view: self)
+        // AudioSessionManager.shared.playerPropertiesChanged(view: self)
     }
 
     @objc
@@ -1003,7 +1003,7 @@ class RCTVideo: UIView, RCTVideoPlayerViewControllerDelegate, RCTPlayerObserverH
         setPaused(_paused)
         setAllowsExternalPlayback(_allowsExternalPlayback)
 
-        AudioSessionManager.shared.playerPropertiesChanged(view: self)
+        // AudioSessionManager.shared.playerPropertiesChanged(view: self)
     }
 
     @objc
@@ -1400,7 +1400,7 @@ class RCTVideo: UIView, RCTVideoPlayerViewControllerDelegate, RCTPlayerObserverH
         }
 
         // Unregister from AudioSessionManager
-        AudioSessionManager.shared.unregisterView(view: self)
+        // AudioSessionManager.shared.unregisterView(view: self)
 
         _playerItem = nil
         _source = nil

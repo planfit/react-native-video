@@ -25,11 +25,11 @@ class NowPlayingInfoCenterManager {
     var receivingRemoveControlEvents = false {
         didSet {
             if receivingRemoveControlEvents {
-                AudioSessionManager.shared.setRemoteControlEventsActive(true)
+                // AudioSessionManager.shared.setRemoteControlEventsActive(true)
                 UIApplication.shared.beginReceivingRemoteControlEvents()
             } else {
                 UIApplication.shared.endReceivingRemoteControlEvents()
-                AudioSessionManager.shared.setRemoteControlEventsActive(false)
+                // AudioSessionManager.shared.setRemoteControlEventsActive(false)
             }
         }
     }
