@@ -122,8 +122,8 @@ const Video = forwardRef<VideoRef, ReactVideoProps>(
         !renderLoader
           ? undefined
           : renderLoader instanceof Function
-          ? renderLoader
-          : () => renderLoader,
+            ? renderLoader
+            : () => renderLoader,
       [renderLoader],
     );
 
