@@ -38,7 +38,7 @@ export const withAndroidExtensions: ConfigPlugin<
         '',
       ) as keyof typeof androidExtensions;
       const value = androidExtensions
-        ? androidExtensions[valueKey] ?? false
+        ? (androidExtensions[valueKey] ?? false)
         : false;
 
       config.modResults.push({
