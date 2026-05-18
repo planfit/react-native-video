@@ -39,8 +39,8 @@ class ExoPlayerView @JvmOverloads constructor(context: Context, attrs: Attribute
     private val playerView = PlayerView(context).apply {
         layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
         setShutterBackgroundColor(Color.TRANSPARENT)
-        useController = true
-        controllerAutoShow = true
+        useController = false
+        controllerAutoShow = false
         controllerHideOnTouch = true
         controllerShowTimeoutMs = 5000
         // Don't show subtitle button by default - will be enabled when tracks are available
