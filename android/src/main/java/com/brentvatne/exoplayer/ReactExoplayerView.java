@@ -444,19 +444,19 @@ public class ReactExoplayerView extends FrameLayout implements
 
     private void updateControllerConfig() {
         if (exoPlayerView == null) return;
-        
+
         exoPlayerView.setControllerShowTimeoutMs(5000);
-        
-        exoPlayerView.setControllerAutoShow(true);
+
+        exoPlayerView.setControllerAutoShow(controls);
         exoPlayerView.setControllerHideOnTouch(true);
-        
+
         updateControllerVisibility();
     }
 
     private void updateControllerVisibility() {
         if (exoPlayerView == null) return;
-            
-        exoPlayerView.setUseController(!controlsConfig.getHideFullscreen());
+
+        exoPlayerView.setUseController(controls && !controlsConfig.getHideFullscreen());
     }
 
     private void openSettings() {
